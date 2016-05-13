@@ -60,5 +60,6 @@ function controlBonuses() {
       bonuses.splice(i, 1);
     }
   }
+  // TODO: Set timeout for ~ 10 seconds to spawn bonuses
   if (Math.random() < 0.005) { bonuses = []; }
 }

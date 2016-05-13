@@ -44,17 +44,39 @@ function createNewZombie() {
   var interval = 50;
   var x = Math.random() * myGameArea.canvas.width;
   var y = Math.random() * myGameArea.canvas.height;
+  var width = 30;
+  var height = 30;
 
-  if (intervalRate(interval)) {
-    zombies.push(new zombieComponent(x, y, 30, 30, "red"));
-  }
+  var zombieLeft = x;
+  var zombieRight = x + width;
+  var zombieTop  = y;
+  var zombieBottom = y + height;
+
+  var playerLeft = player.x;
+  var playerRight = player.x + player.width;
+  var playerTop  = player.y;
+  var playerBottom = player.y + player.height;
+
+  var delta = 200;
+
+  if (
+      ((zombieRight < playerLeft - delta) && ((zombieBottom < playerTop - delta) || (zombieTop > playerBottom + delta))) ||
+      ((zombieLeft > playerRight + delta) && ((zombieBottom < playerTop - delta) || (zombieTop > playerBottom + delta))) ||
+      ((zombieBottom < playerTop - delta) && ((zombieRight < playerLeft - delta) ||(zombieLeft > playerRight + delta))) ||
+      ((zombieTop > playerBottom + delta) && ((zombieRight < playerLeft - delta) ||(zombieLeft > playerRight + delta)))
+     ) {
+       if (intervalRate(interval)) {
+         zombies.push(new zombieComponent(x, y, width, height, "red"));
+       }
+     } else {
+       createNewZombie();
+     }
 }
 
 function controlZombies() {
   for (i = 0; i < zombies.length; i++) {
     zombies[i].towardsPlayer();
     zombies[i].update();
-    // if (i !== zombies.length - 1 && zombies[i].attack(player)) {
     if (zombies[i].attack(player)) {
       health += -5;
       if (health === 0) {
