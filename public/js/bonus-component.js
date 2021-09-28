@@ -10,8 +10,8 @@ function bonusComponent(x, y, width, height, color) {
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
   this.clearZombies = function() {
-    // zombies.splice(0, zombies.length / 2);
-    zombies = [];
+    zombies.splice(0, zombies.length / 2);
+    // zombies = [];
   }
   this.extraHealth = function() {
     health += 250;
